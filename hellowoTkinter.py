@@ -47,6 +47,10 @@ def setImage(path):
     #events The left mouse button is defined by the event <Button-1>
     panel.bind("<Button-1>", callback)
     panel.grid(column=3, row=1, columnspan = 6, sticky='NS')
+def delLastRec():
+    text2save.pop()
+    refreshTextBox()
+
 #function that is called when clicked Inside the image
 def callback(event):
     global currentline
@@ -60,9 +64,14 @@ def callback(event):
         currentline =""
         refreshTextBox()
 
-def delLastRec():
-    text2save.pop()
-    refreshTextBox()
+
+
+def refreshTextBox():
+    
+    displayVar.delete("1.0",END)
+    for item in text2save:
+        displayVar.insert(END,item+" \n")
+    #add a box drawing for the last selection?
 
 
 Button(root, text='Open image', command=openImage).grid(column=1, row =0, sticky='NS', pady=4)
@@ -70,13 +79,8 @@ Button(root, text='Delete Last Record', command=delLastRec).grid(column=2, row =
 Button(root, text='Save', command=saveRec).grid(column=3, row =0, sticky='NS', pady=4)
 Button(root, text='Quit', command=onExit).grid(column=4, row =0, sticky='NS', pady=4)
 #need a display widget where to show text2save current values, that will update with the selection
-displayVar = StringVar(root)#.grid(column=1, row=1, sticky='NS')
-displayVar.set("hello, ")
-displayVar.set("world")
+displayVar = Text(root).grid(column=1, row=1, sticky='NS')
 
-def refreshTextBox():
-    displayVar.set(text2save)
-    #add a box drawing for the last selection?
-    
+
 
 mainloop()
