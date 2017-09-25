@@ -3,21 +3,11 @@ from tkinter import filedialog
 from PIL import ImageTk, Image
 import pyautogui
 
-
-canvas_width = 300
-canvas_height = 300
 text2save = []
-
 root = Tk()
 currentline = ""
-root.geometry("600x400")
+root.geometry("800x600")
 root.resizable(width=True, height=True)
-
-def var_states():
-   canvas_height = 500
-   pyautogui.position()
-   print(canvas_height)
-   print(canvas_width)
 
 def openImage():
         #Open Callback
@@ -55,22 +45,22 @@ def delLastRec():
 def callback(event):
     global currentline
     if(currentline ==""):
-        print ("clicked at", event.x, event.y)
+        #print ("clicked at", event.x, event.y)
         currentline = "name"+str(len(text2save))+","+str(event.x) + ","+str(event.y)+","
     else:
         currentline= currentline +  str(event.x) + ","+str(event.y)
         text2save.append(currentline)
-        print(currentline)
+        #print(currentline)
         currentline =""
         refreshTextBox()
 
 
 
 def refreshTextBox():
-    
-    displayVar.delete("1.0",END)
+    global text
+    text.delete("1.0",END)
     for item in text2save:
-        displayVar.insert(END,item+" \n")
+        text.insert(END,str(item)+"\n")
     #add a box drawing for the last selection?
 
 
@@ -79,8 +69,10 @@ Button(root, text='Delete Last Record', command=delLastRec).grid(column=2, row =
 Button(root, text='Save', command=saveRec).grid(column=3, row =0, sticky='NS', pady=4)
 Button(root, text='Quit', command=onExit).grid(column=4, row =0, sticky='NS', pady=4)
 #need a display widget where to show text2save current values, that will update with the selection
-displayVar = Text(root).grid(column=1, row=1, sticky='NS')
 
-
+text = Text(root)
+text.insert(INSERT, "Hi!")
+text.insert(END, "Here will be shown the selcted boxes information after every complete box")
+text.grid(column = 1,row=1 )
 
 mainloop()
